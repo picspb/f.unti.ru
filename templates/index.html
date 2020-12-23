@@ -1,14 +1,14 @@
 {% extends 'base.html' %}
 
 {% block title %}
-<title> Онлайн магазин </title>
+<title> База заказов - Умка </title>
 {% endblock %}
 
 {% block body %}
 <main class="container">
   <div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
-    <h1 class="display-4">Pricing</h1>
-    <p class="lead">Quickly build an effective pricing table for your potential customers with this Bootstrap example. It’s built with default Bootstrap components and utilities with little customization.</p>
+    <h1 class="display-4">Главная страница</h1>
+    <p class="lead"> Сборная солянка из заказов</p>
   </div>
 
 
@@ -19,17 +19,14 @@
 
           <div class="card mb-4 shadow-sm">
       <div class="card-header">
-        <h4 class="my-0 fw-normal">{{ el.title}}</h4>
+        <h4 class="my-0 fw-normal">{{ el.Num }}  {{el.Firma}} </h4>
       </div>
       <div class="card-body">
-        <h1 class="card-title pricing-card-title">{{ el.price}} <small class="text-muted">рублей</small></h1>
         <ul class="list-unstyled mt-3 mb-4">
-          <li>10 users included</li>
-          <li>2 GB of storage</li>
-          <li>Email support</li>
-          <li>Help center access</li>
+		  <li>{{ el.Kont_Litso }} тлф:-- почта:-- адрес: {{ el.Adres }} </li>
+
         </ul>
-        <a href="/buy/{{ el.id }}" class="w-100 btn btn-lg btn-outline-primary">Купить</a>
+
       </div>
     </div>
 

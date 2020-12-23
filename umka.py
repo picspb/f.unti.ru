@@ -4,19 +4,42 @@ import random
 
 
 application = Flask(__name__)
-application.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///umka.db3'
-application.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+application.debug = True    #вывод ошибок в браузер
+application.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///umka.db3'    #Путь/URI базы данных, который будет использоваться для подключения.
+#postgresql://scott:tiger@localhost/mydatabase  #для базы Postgres
+#mysql://scott:tiger@localhost/mydatabase   #для базы MySQL
+application.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False    #Если установлен в True, то Flask-SQLAlchemy будет отслеживать изменения объектов и посылать сигналы. По умолчанию становлен в None, что включает отслеживание но выводит предупреждение, что в будующем будет отчключена по умолчанию. Данная функция требует дополнительную память, и должна быть отключена если не используется.
 db = SQLAlchemy(application)
 
 
-class Item(db.Model):
+class Klient(db.Model):
     Num = db.Column(db.Integer, primary_key=True)
-    Firma = db.Column(db.text, nullable=True)
-    Kont_Litso = db.Column(db.text, nullable=True)
-    Kont_Tel = db.Column(db.text, nullable=True)
-    E_Mail = db.Column(db.text, nullable=True)
-    Adres = db.Column(db.text, nullable=True)
-    
+    Firma = db.Column(db.Text, nullable=True)
+    Kont_Litso = db.Column(db.Text, nullable=True)
+    Kont_Tel = db.Column(db.Text, nullable=True)
+    E_Mail = db.Column(db.Text, nullable=True)
+    Adres = db.Column(db.Text, nullable=True)
+
+class Flags(db.Model):
+    Num = db.Column(db.Integer, primary_key=True)
+    Num_Zakaz = db.Column(db.Integer, nullable = False)
+    Opisanie = db.Column(db.Text, nullable=True)
+    Kol_vo = db.Column(db.Integer, nullable = False)
+    Zena = db.Column(db.Text, nullable = False)
+    Data_Out = db.Column(db.Integer, nullable = True)
+    Risunok = db.Column(db.Text, nullable=True)
+
+class Zakaz(db.Model):    
+    Num = db.Column(db.Integer, primary_key=True)
+    Klient = db.Column(db.Text, nullable=True)
+    Komment = db.Column(db.Text, nullable=True)
+    Data_In = db.Column(db.Integer, nullable = True)
+    Data_Out = db.Column(db.Integer, nullable = True)
+    Summa = db.Column(db.Text, nullable=True)
+    Stage = db.Column(db.Integer, nullable = True)
+    Oplata_Inf = db.Column(db.Text, nullable=True)
+    Prinjal = db.Column(db.Text, nullable=True)
+   
 
 def __repr__(self):
         return self.title
@@ -25,47 +48,30 @@ def __repr__(self):
 
 @application.route('/')
 def index():
-    items = Item.query.all()
-    return render_template('indexumka.html', data=items)
+    items = Klient.query.all()
+    return render_template('index.html', data=items)
 
+@application.route('/klient')
+def klient():
+    items = Klient.query.all()
+    return render_template('klient.html', data=items)
+
+@application.route('/flags')
+def flags():
+    items = Flags.query.all()
+    return render_template('flags.html', data=items)
+
+@application.route('/zakaz')
+def zakaz():
+    items = Zakaz.query.all()
+    return render_template('zakaz.html', data=items)
+    
 
 @application.route('/about')
 def about():
     return render_template('about.html')
 
 
-@application.route('/buy/<int:id>')
-def item_buy(id):
-    return str(id)
-
-
-@application.route('/create', methods=['POST', 'GET'])
-def create():
-    if request.method == "POST":
-        title = request.form['title']
-        price = request.form['price']
-
-        item = Item(title=title, price=price)
-
-        try:
-            db.session.add(item)
-            db.session.commit()
-            return redirect('/')
-        except:
-            return "Получилась ошибка"
-    else:
-        return render_template('create.html')
-
-
-@application.route("/1")
-def hello():
-	return "<h1 style='color:blue'>Привет, Мир!</h1>"   
-
-
-@application.route("/2")
-def hell():
-	movies = ["Добрый день", "Привет", "Пока", "Добрый вечер", "Назад"]
-	return "<h1 style='color:blue'>" + random.choice(movies) + "</h1>"
 
 
 if __name__ == "__main__":

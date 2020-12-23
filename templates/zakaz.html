@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block title %}
+<title> Заказы </title>
+{% endblock %}
+
+{% block body %}
+<div class="container">
+    <h1> Заказы </h1>
+{% for el in data%}	
+	<li>Заказ №{{ el.Num }} от {{ el.Klient}} создан:{{el.Data_In}} сдать:{{el.Data_Out}} сумма:{{el.Summa}}руб. оплата:{{el.Oplata_Inf}} принял:{{el.Prinjal}})</li>
+{% endfor %}
+
+</div>
+{% endblock %}

@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block title %}
+<title> Флаги </title>
+{% endblock %}
+
+{% block body %}
+<div class="container">
+
+<h1> Флаги </h1>
+{% for el in data%}	
+	<li>{{ el.Num }}    {{ el.Opisanie}} - {{ el.Kol_vo}} шт. по {{ el.Zena}} руб. (заказ № {{ el.Num_Zakaz}}  )</li>
+{% endfor %}
+  
+</div>
+{% endblock %}
