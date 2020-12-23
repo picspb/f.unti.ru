@@ -9,4 +9,4 @@ if sys.executable != INTERP:
 sys.path.append(os.getcwd())
 
 
-from hello import application
+from umka import application

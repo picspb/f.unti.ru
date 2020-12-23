@@ -4,16 +4,18 @@ import random
 
 
 application = Flask(__name__)
-application.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///shop.db'
+application.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///umka.db3'
 application.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(application)
 
 
 class Item(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    title = db.Column(db.String(300), nullable=False)
-    price = db.Column(db.Integer, nullable=False)
-    isActive = db.Column(db.Boolean, default=True)
+    Num = db.Column(db.Integer, primary_key=True)
+    Firma = db.Column(db.text, nullable=True)
+    Kont_Litso = db.Column(db.text, nullable=True)
+    Kont_Tel = db.Column(db.text, nullable=True)
+    E_Mail = db.Column(db.text, nullable=True)
+    Adres = db.Column(db.text, nullable=True)
     
 
 def __repr__(self):
@@ -24,7 +26,7 @@ def __repr__(self):
 @application.route('/')
 def index():
     items = Item.query.all()
-    return render_template('index.html', data=items)
+    return render_template('indexumka.html', data=items)
 
 
 @application.route('/about')
